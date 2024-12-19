@@ -12,7 +12,19 @@ export default function SingleLine(props: SingleLineProps) {
   const [isArriving, setIsArriving] = useState<boolean>(
     props.data[0].departures.departure[0].departureTime.countdown <= 1,
   );
+  const [departure, setDeparture] = useState<string>(
+    getTimeString(
+      new Date(props.data[0].departures.departure[0].departureTime.timeReal),
+      false,
+    ),
+  );
   useEffect(() => {
+    setDeparture(
+      getTimeString(
+        new Date(props.data[0].departures.departure[0].departureTime.timeReal),
+        false,
+      ),
+    );
     setIsArriving(
       props.data[0].departures.departure[0].departureTime.countdown <= 1,
     );
@@ -32,16 +44,7 @@ export default function SingleLine(props: SingleLineProps) {
         </div>
         <div className="text-right p-2">
           <h3 className="text-xs">Nächste Abfahrt</h3>
-          <div>
-            {getTimeString(
-              new Date(
-                props.data[0].departures.departure[0].departureTime.timeReal,
-              ),
-              false,
-            )}
-          </div>
-          {/* {props.data[0].departures.departure[0].departureTime.countdown !==
-        0 && <div>placeholder animation</div>} */}
+          <div>{departure}</div>
         </div>
       </div>
       <Timeline isArriving={isArriving} />

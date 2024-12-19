@@ -10,12 +10,13 @@ export default function RealTimeData() {
   >(undefined);
   const { data, isLoading } = useQuery({
     queryKey: ['wienerLinienData'],
-    queryFn: () => getWienerLinienResponseByStopId(['3445', '3448']),
+    queryFn: () =>
+      getWienerLinienResponseByStopId(['3445', '3448', '223', '231', '4203']),
     refetchInterval: 60000,
   });
 
   useEffect(() => {
-    console.log('updated');
+    console.log('updated', data);
     setWienerLinienResponse(data);
   }, [data]);
 
