@@ -1,10 +1,13 @@
 import { WienerLinienResponse } from './wienerLinien.types';
 
 export async function getWienerLinienResponseByStopId(
-  stopId: string,
+  stopIdArray: string[],
 ): Promise<WienerLinienResponse> {
-  const response = await fetch(`/api/monitor?stopId=${stopId}`);
+  const concatenatedStopIds = stopIdArray
+    .map((stopId) => `stopId=${stopId}`)
+    .join('&');
+
+  const response = await fetch(`/api/monitor?${concatenatedStopIds}`);
   const data = await response.json();
-  console.log(data);
   return data;
 }
