@@ -10,14 +10,9 @@
   "snapshot": "thumbnail.png",
   "config": [
     {
-      "name": "station",
-      "label": "Station",
-      "type": "select",
-      "values": [
-        { "label": "Rosensteingasse", "value": "60201115" },
-        { "label": "Rosensteingasse", "value": "60201115" }
-      ],
-      "desc": "Station auswählen"
+      "name": "stopIds",
+      "label": "stopIds (comma seperated)",
+      "type": "string"
     }
   ]
 }
