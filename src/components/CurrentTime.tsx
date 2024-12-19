@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getTimeString } from '../utils/dateTime';
 
-export function CurrentTime() {
+export default function CurrentTime() {
   const [currentTime, setCurrentTime] = useState<string>(
     getTimeString(new Date()),
   );

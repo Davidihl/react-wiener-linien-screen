@@ -1,6 +1,10 @@
 import { skleraSDK } from '@sklera/sdk';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { CurrentTime } from './components/CurrentTime';
+import CurrentTime from './components/CurrentTime';
+import RealTimeData from './components/RealTimeData';
+
+const queryClient = new QueryClient();
 
 function App() {
   useEffect(() => {
@@ -8,9 +12,10 @@ function App() {
   }, []);
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <CurrentTime />
-    </>
+      <RealTimeData />
+    </QueryClientProvider>
   );
 }
 
