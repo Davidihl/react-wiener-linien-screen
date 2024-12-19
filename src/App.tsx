@@ -7,14 +7,20 @@ import RealTimeData from './components/RealTimeData';
 const queryClient = new QueryClient();
 
 function App() {
+  // const [stopIds, setStopIds] = useState<string[]>([]);
   useEffect(() => {
-    skleraSDK.loaded().then(console.log).catch(console.error);
+    skleraSDK
+      .loaded()
+      .then((response) => {
+        console.log(response.configData.stopIds);
+      })
+      .catch(console.error);
   }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
       <CurrentTime />
-      <RealTimeData />
+      <RealTimeData stopIds={['3445', '3448']} />
     </QueryClientProvider>
   );
 }
