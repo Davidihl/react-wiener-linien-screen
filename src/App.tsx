@@ -1,12 +1,12 @@
-import { useEffect } from "react";
-import { skleraSDK } from "@sklera/sdk";
+import { skleraSDK } from '@sklera/sdk';
+import { useEffect } from 'react';
 
 function App() {
   useEffect(() => {
     skleraSDK.loaded().then(console.log).catch(console.error);
   }, []);
 
-  return <div>Wiener Linien Anzeige</div>;
+  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
 }
 
 export default App;
