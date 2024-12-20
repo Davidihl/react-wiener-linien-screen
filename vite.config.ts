@@ -6,6 +6,7 @@ export default defineConfig({
   base: './',
   plugins: [react()],
   server: {
+    cors: true,
     proxy: {
       '/api': {
         target: 'https://www.wienerlinien.at/ogd_realtime',
