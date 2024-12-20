@@ -1,4 +1,3 @@
-import { skleraSDK } from '@sklera/sdk';
 import { WienerLinienResponse } from './wienerLinien.types';
 
 export async function getWienerLinienResponseByStopId(
@@ -9,15 +8,9 @@ export async function getWienerLinienResponseByStopId(
     .join('&');
 
   try {
-    let response;
-    if (import.meta.env.PROD) {
-      response = await skleraSDK.fetchRemoteData(
-        `https://www.wienerlinien.at/ogd_realtime/monitor?${joinedStopIds}`,
-      );
-    } else {
-      response = await fetch(`/api/monitor?${joinedStopIds}`);
-    }
-
+    const response = await fetch(
+      ` https://eogrkqip9l.execute-api.eu-west-1.amazonaws.com/monitor?xyz/monitor?${joinedStopIds}`,
+    );
     const data = await response.json();
     return data;
   } catch (error) {
