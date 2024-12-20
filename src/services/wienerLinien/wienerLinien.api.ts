@@ -2,7 +2,7 @@ import { WienerLinienResponse } from './wienerLinien.types';
 
 const apiUrl = import.meta.env.PROD
   ? 'https://www.wienerlinien.at/ogd_realtime'
-  : '/api';
+  : 'https://www.wienerlinien.at/ogd_realtime';
 
 export async function getWienerLinienResponseByStopId(
   stopIdArray: string[],

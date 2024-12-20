@@ -9,7 +9,7 @@ type RealTimeDataProps = {
 
 export default function RealTimeData(props: RealTimeDataProps) {
   const {
-    data: wienerLinienResponse = { data: { monitors: [] } },
+    data: wienerLinienResponse,
     isLoading,
     isError,
   } = useQuery({
