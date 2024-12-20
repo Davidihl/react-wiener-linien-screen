@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
 import { Line } from '../services/wienerLinien/wienerLinien.types';
-import { getTimeString } from '../utils/dateTime';
 import Timeline from './Timeline';
 
 type SingleLineProps = {
@@ -9,26 +7,9 @@ type SingleLineProps = {
 };
 
 export default function SingleLine(props: SingleLineProps) {
-  const [isArriving, setIsArriving] = useState<boolean>(
-    props.data[0].departures.departure[0].departureTime.countdown <= 1,
-  );
-  const [departure, setDeparture] = useState<string>(
-    getTimeString(
-      new Date(props.data[0].departures.departure[0].departureTime.timeReal),
-      false,
-    ),
-  );
-  useEffect(() => {
-    setDeparture(
-      getTimeString(
-        new Date(props.data[0].departures.departure[0].departureTime.timeReal),
-        false,
-      ),
-    );
-    setIsArriving(
-      props.data[0].departures.departure[0].departureTime.countdown <= 1,
-    );
-  }, [props.data]);
+  const departure =
+    props.data[0].departures.departure[0].departureTime.countdown;
+  const isArriving = departure <= 1;
 
   return (
     <div>
@@ -44,7 +25,7 @@ export default function SingleLine(props: SingleLineProps) {
         </div>
         <div className="text-right p-2">
           <h3 className="text-xs">Nächste Abfahrt</h3>
-          <div>{departure}</div>
+          <div>{departure + ' min'}</div>
         </div>
       </div>
       <Timeline isArriving={isArriving} />

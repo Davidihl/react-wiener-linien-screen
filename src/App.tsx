@@ -1,14 +1,16 @@
 import { skleraSDK } from '@sklera/sdk';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import CurrentTime from './components/CurrentTime';
+import LoadingSpinner from './components/LoadingSpinner';
 import RealTimeData from './components/RealTimeData';
+// import RealTimeData from './components/RealTimeData';
 import { convertStopIdStringToArray } from './services/sklera/sklera.api';
 
 const queryClient = new QueryClient();
 
 function App() {
-  // const [stopIds, setStopIds] = useState<string[]>([]);
+  const [stopIds, setStopIds] = useState<string[]>(['3445', '3448']);
   useEffect(() => {
     skleraSDK
       .loaded()
@@ -18,8 +20,7 @@ function App() {
           const stopIdArray = convertStopIdStringToArray(
             response.configData?.stopIds,
           );
-          console.log(stopIdArray);
-          // TODO: setStopIds(response.configData?.stopIds) to load from config
+          setStopIds(stopIdArray);
         }
       })
       .catch(console.error);
@@ -28,7 +29,14 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <CurrentTime />
-      <RealTimeData stopIds={['3445', '3448', '231']} />
+      <h1 className="text-3xl mb-8">Echtzeit Abfrage</h1>
+      {stopIds.length === 0 ? (
+        <div className="flex items-center justify-center w-full mt-8">
+          <LoadingSpinner />
+        </div>
+      ) : (
+        <RealTimeData stopIds={stopIds} />
+      )}
     </QueryClientProvider>
   );
 }

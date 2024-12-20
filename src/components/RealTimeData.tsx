@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
 import { getWienerLinienResponseByStopId } from '../services/wienerLinien/wienerLinien.api';
-import { WienerLinienResponse } from '../services/wienerLinien/wienerLinien.types';
+import LoadingSpinner from './LoadingSpinner';
 import SingleLine from './SingleLine';
 
 type RealTimeDataProps = {
@@ -9,22 +8,22 @@ type RealTimeDataProps = {
 };
 
 export default function RealTimeData(props: RealTimeDataProps) {
-  const [wienerLinienResponse, setWienerLinienResponse] = useState<
-    WienerLinienResponse | undefined
-  >(undefined);
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data: wienerLinienResponse,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['wienerLinienData'],
     queryFn: () => getWienerLinienResponseByStopId(props.stopIds),
     refetchInterval: 60000,
   });
 
-  useEffect(() => {
-    // console.log('RealTimeData.tsx', data);
-    setWienerLinienResponse(data);
-  }, [data]);
-
   if (isLoading) {
-    return <div>Pending...</div>;
+    return (
+      <div className="flex items-center justify-center w-full mt-8">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   if (isError) {
@@ -36,21 +35,18 @@ export default function RealTimeData(props: RealTimeDataProps) {
   }
 
   return (
-    <>
-      <h1 className="text-3xl mb-8">Echtzeit Abfrage</h1>
-      <div className="flex flex-col gap-8">
-        {wienerLinienResponse?.data.monitors.length != 0 ? (
-          wienerLinienResponse?.data.monitors.map((lineDirection, index) => (
-            <SingleLine
-              key={`${lineDirection.locationStop.properties.type}-${lineDirection.locationStop.properties.attributes.rbl}-${index}`}
-              data={lineDirection.lines}
-              station={lineDirection.locationStop.properties.title}
-            />
-          ))
-        ) : (
-          <div>Keine Daten verfügbar</div>
-        )}
-      </div>
-    </>
+    <div className="flex flex-col gap-8">
+      {wienerLinienResponse?.data ? (
+        wienerLinienResponse?.data.monitors.map((lineDirection, index) => (
+          <SingleLine
+            key={`${lineDirection.locationStop.properties.type}-${lineDirection.locationStop.properties.attributes.rbl}-${index}`}
+            data={lineDirection.lines}
+            station={lineDirection.locationStop.properties.title}
+          />
+        ))
+      ) : (
+        <div>Keine Daten verfügbar: {wienerLinienResponse.message.value}</div>
+      )}
+    </div>
   );
 }
