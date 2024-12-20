@@ -1,3 +1,4 @@
+import { skleraSDK } from '@sklera/sdk';
 import { WienerLinienResponse } from './wienerLinien.types';
 
 export async function getWienerLinienResponseByStopId(
@@ -8,11 +9,18 @@ export async function getWienerLinienResponseByStopId(
     .join('&');
 
   try {
-    const response = await fetch(
-      ` https://eogrkqip9l.execute-api.eu-west-1.amazonaws.com/monitor?xyz/monitor?${joinedStopIds}`,
-    );
-    const data = await response.json();
-    return data;
+    if (import.meta.env.PROD) {
+      await skleraSDK.loaded();
+      const data = await skleraSDK.sendHttpRequest(
+        `https://eogrkqip9l.execute-api.eu-west-1.amazonaws.com/monitor?${joinedStopIds}`,
+        { method: 'GET' },
+      );
+      return data;
+    } else {
+      const response = await fetch(`/api/monitor?${joinedStopIds}`);
+      const data = await response.json();
+      return data;
+    }
   } catch (error) {
     console.error('Error while fetching data: ', error);
     return { data: { monitors: [] } };
