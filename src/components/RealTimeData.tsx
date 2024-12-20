@@ -31,6 +31,10 @@ export default function RealTimeData(props: RealTimeDataProps) {
     return <div>{isError}</div>;
   }
 
+  if (!wienerLinienResponse) {
+    return <div>No Response.</div>;
+  }
+
   return (
     <>
       <h1 className="text-3xl mb-8">Echtzeit Abfrage</h1>
