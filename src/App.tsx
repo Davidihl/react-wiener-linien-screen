@@ -15,11 +15,11 @@ function App() {
     skleraSDK
       .loaded()
       .then((response) => {
-        console.log('response', response);
         if (response.configData?.stopIds) {
           const stopIdArray = convertStopIdStringToArray(
             response.configData?.stopIds,
           );
+
           setStopIds(stopIdArray);
         }
       })
