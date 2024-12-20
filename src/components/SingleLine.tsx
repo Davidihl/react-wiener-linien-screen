@@ -13,7 +13,7 @@ export default function SingleLine(props: SingleLineProps) {
 
   return (
     <div>
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
         <div className="text-left p-2 flex gap-2 items-center">
           <div className=" bg-red-500 text-lg font-medium text-white rounded-full h-8 w-8 flex shrink-0 items-center justify-center">
             {props.data[0].name}
@@ -23,7 +23,7 @@ export default function SingleLine(props: SingleLineProps) {
             <h2 className="text-xl">Richtung {props.data[0].towards}</h2>
           </div>
         </div>
-        <div className="text-right p-2">
+        <div className="text-left pl-12 sm:text-right sm:pl-2 p-2">
           <h3 className="text-xs">Nächste Abfahrt</h3>
           <div>{departure + ' min'}</div>
         </div>
