@@ -9,12 +9,15 @@ type RealTimeDataProps = {
 
 export default function RealTimeData(props: RealTimeDataProps) {
   const {
-    data: wienerLinienResponse,
+    data: wienerLinienResponse = { data: { monitors: [] } },
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['wienerLinienData'],
-    queryFn: () => getWienerLinienResponseByStopId(props.stopIds),
+    queryKey: ['wienerLinienData', props.stopIds],
+    queryFn: async () => {
+      const response = await getWienerLinienResponseByStopId(props.stopIds);
+      return response ?? { data: { monitors: [] } };
+    },
     refetchInterval: 60000,
   });
 
@@ -27,26 +30,27 @@ export default function RealTimeData(props: RealTimeDataProps) {
   }
 
   if (isError) {
-    return <div>{isError}</div>;
+    return <div>Fehler bei Abfrage</div>;
   }
 
-  if (!wienerLinienResponse) {
-    return <div>No Response.</div>;
+  if (wienerLinienResponse) {
+    return (
+      <div className="flex flex-col gap-8">
+        {wienerLinienResponse?.data &&
+        wienerLinienResponse?.data.monitors.length > 0 ? (
+          wienerLinienResponse?.data.monitors.map((lineDirection, index) => (
+            <SingleLine
+              key={`${lineDirection.locationStop.properties.type}-${lineDirection.locationStop.properties.attributes.rbl}-${index}`}
+              data={lineDirection.lines}
+              station={lineDirection.locationStop.properties.title}
+            />
+          ))
+        ) : (
+          <div>Keine Daten verfügbar</div>
+        )}
+      </div>
+    );
   }
 
-  return (
-    <div className="flex flex-col gap-8">
-      {wienerLinienResponse?.data ? (
-        wienerLinienResponse?.data.monitors.map((lineDirection, index) => (
-          <SingleLine
-            key={`${lineDirection.locationStop.properties.type}-${lineDirection.locationStop.properties.attributes.rbl}-${index}`}
-            data={lineDirection.lines}
-            station={lineDirection.locationStop.properties.title}
-          />
-        ))
-      ) : (
-        <div>Keine Daten verfügbar: {wienerLinienResponse.message.value}</div>
-      )}
-    </div>
-  );
+  return <div>Keine Daten vorhanden</div>;
 }

@@ -6,7 +6,7 @@ const apiUrl = import.meta.env.PROD
 
 export async function getWienerLinienResponseByStopId(
   stopIdArray: string[],
-): Promise<WienerLinienResponse | undefined> {
+): Promise<WienerLinienResponse> {
   const joinedStopIds = stopIdArray
     .map((stopId) => `stopId=${stopId}`)
     .join('&');
@@ -17,5 +17,6 @@ export async function getWienerLinienResponseByStopId(
     return data;
   } catch (error) {
     console.error('Error while fetching data: ', error);
+    return { data: { monitors: [] } };
   }
 }

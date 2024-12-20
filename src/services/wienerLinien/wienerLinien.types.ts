@@ -1,6 +1,6 @@
 export type WienerLinienResponse = {
   data: WienerLinienData;
-  message: {
+  message?: {
     value: string;
     messageCode: number;
     serverTime: string;
@@ -8,7 +8,7 @@ export type WienerLinienResponse = {
 };
 
 export type WienerLinienData = {
-  monitors: LineDirection[];
+  monitors: LineDirection[] | never[];
 };
 
 export type LineDirection = {
