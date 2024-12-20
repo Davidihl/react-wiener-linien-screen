@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import CurrentTime from './components/CurrentTime';
 import LoadingSpinner from './components/LoadingSpinner';
 import RealTimeData from './components/RealTimeData';
-// import RealTimeData from './components/RealTimeData';
 import { convertStopIdStringToArray } from './services/sklera/sklera.api';
 
 const queryClient = new QueryClient();
