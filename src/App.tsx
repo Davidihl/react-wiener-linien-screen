@@ -13,11 +13,14 @@ function App() {
     skleraSDK
       .loaded()
       .then((response) => {
-        const stopIdArray = convertStopIdStringToArray(
-          response.configData?.stopIds,
-        );
-        console.log(stopIdArray);
-        // TODO: setStopIds(response.configData?.stopIds) to load from config
+        console.log('response', response);
+        if (response.configData?.stopIds) {
+          const stopIdArray = convertStopIdStringToArray(
+            response.configData?.stopIds,
+          );
+          console.log(stopIdArray);
+          // TODO: setStopIds(response.configData?.stopIds) to load from config
+        }
       })
       .catch(console.error);
   }, []);
