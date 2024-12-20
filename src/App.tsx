@@ -20,7 +20,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <CurrentTime />
-      <RealTimeData stopIds={['3445', '3448']} />
+      <RealTimeData stopIds={['3445', '3448', '231']} />
     </QueryClientProvider>
   );
 }
